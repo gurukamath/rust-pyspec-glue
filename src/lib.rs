@@ -224,3 +224,10 @@ pub extern "C" fn debug_dump(_tx: *mut ()) {
     //let tx: &mut MutableTransaction = unsafe { &mut *tx.cast() };
     //tx.debug_dump_db().unwrap();
 }
+
+#[no_mangle]
+pub extern "C" fn account_has_storage(tx: *mut (), address: *const u8) -> bool {
+    let tx: &mut MutableTransaction = unsafe { &mut *tx.cast() };
+    let address = Address::from_slice(unsafe { std::slice::from_raw_parts(address, 20) });
+    tx.account_has_storage(address).unwrap()
+}

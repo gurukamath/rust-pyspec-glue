@@ -141,3 +141,17 @@ class DB:
         if self.tx is None:
             raise Exception("No transaction in progress")
         lib.debug_dump(self.tx)
+
+    def account_has_storage(self, address: bytes) -> bool:
+        """Check if an account has any storage entries.
+        
+        Args:
+            address: The address of the account to check
+
+        Returns:
+            bool: True if the account has any storage, False otherwise
+        """
+        if self.tx is None:
+            raise Exception("No transaction in progress")
+        assert len(address) == 20
+        return lib.account_has_storage(self.tx, ffi.from_buffer(address))
